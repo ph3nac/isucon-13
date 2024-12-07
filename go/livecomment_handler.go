@@ -84,6 +84,11 @@ func getLivecommentsHandler(c echo.Context) error {
 	}
 	defer tx.Rollback()
 
+	// sql作成
+	query := `
+	SELECT
+	
+	`
 	query := "SELECT * FROM livecomments WHERE livestream_id = ? ORDER BY created_at DESC"
 	if c.QueryParam("limit") != "" {
 		limit, err := strconv.Atoi(c.QueryParam("limit"))
@@ -93,8 +98,11 @@ func getLivecommentsHandler(c echo.Context) error {
 		query += fmt.Sprintf(" LIMIT %d", limit)
 	}
 
+	// 結果を入れる構造体の配列を定義
 	livecommentModels := []LivecommentModel{}
+	// クエリ実行して結果をlivecommentModelsに入れる
 	err = tx.SelectContext(ctx, &livecommentModels, query, livestreamID)
+	// livecommentsModels = tx.SelectContext(ctx, query, livestreamID)
 	if errors.Is(err, sql.ErrNoRows) {
 		return c.JSON(http.StatusOK, []*Livecomment{})
 	}
@@ -104,6 +112,7 @@ func getLivecommentsHandler(c echo.Context) error {
 
 	livecomments := make([]Livecomment, len(livecommentModels))
 	for i := range livecommentModels {
+		// n+1では？
 		livecomment, err := fillLivecommentResponse(ctx, tx, livecommentModels[i])
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, "failed to fil livecomments: "+err.Error())
