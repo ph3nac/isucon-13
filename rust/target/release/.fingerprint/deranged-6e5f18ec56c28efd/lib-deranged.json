@@ -1,0 +1,1 @@
+{"rustc":174346706036672835,"features":"[\"alloc\", \"std\"]","target":3569456305522905405,"profile":3567329628440936607,"path":9464741515971867842,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"release/.fingerprint/deranged-6e5f18ec56c28efd/dep-lib-deranged"}}],"rustflags":[],"metadata":11856866762576635609,"config":2202906307356721367,"compile_kind":0}
